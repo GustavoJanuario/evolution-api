@@ -477,7 +477,7 @@ export class BaileysStartupService extends ChannelStartupService {
   private async getMessage(key: proto.IMessageKey, full = false) {
     try {
       const webMessageInfo = (await this.prismaRepository.message.findMany({
-        where: { instanceId: this.instanceId, key: { path: ['id'], equals: key.id } },
+        where: { instanceId: this.instanceId, key: { path: 'id', equals: key.id } },
       })) as unknown as proto.IWebMessageInfo[];
       if (full) {
         return webMessageInfo[0];
@@ -1402,7 +1402,7 @@ export class BaileysStartupService extends ChannelStartupService {
           }
 
           const findMessage = await this.prismaRepository.message.findFirst({
-            where: { instanceId: this.instanceId, key: { path: ['id'], equals: key.id } },
+            where: { instanceId: this.instanceId, key: { path: 'id', equals: key.id } },
           });
 
           if (!findMessage) {
@@ -3370,7 +3370,7 @@ export class BaileysStartupService extends ChannelStartupService {
         if (messageId) {
           const isLogicalDeleted = configService.get<Database>('DATABASE').DELETE_DATA.LOGICAL_MESSAGE_DELETE;
           let message = await this.prismaRepository.message.findFirst({
-            where: { key: { path: ['id'], equals: messageId } },
+            where: { key: { path: 'id', equals: messageId } },
           });
           if (isLogicalDeleted) {
             if (!message) return response;
@@ -3718,7 +3718,7 @@ export class BaileysStartupService extends ChannelStartupService {
           const messageId = messageSent.message?.protocolMessage?.key?.id;
           if (messageId) {
             let message = await this.prismaRepository.message.findFirst({
-              where: { key: { path: ['id'], equals: messageId } },
+              where: { key: { path: 'id', equals: messageId } },
             });
             if (!message) throw new NotFoundException('Message not found');
 
@@ -4197,8 +4197,8 @@ export class BaileysStartupService extends ChannelStartupService {
     const result = await this.prismaRepository.message.updateMany({
       where: {
         AND: [
-          { key: { path: ['remoteJid'], equals: remoteJid } },
-          { key: { path: ['fromMe'], equals: false } },
+          { key: { path: 'remoteJid', equals: remoteJid } },
+          { key: { path: 'fromMe', equals: false } },
           { messageTimestamp: { lte: timestamp } },
           { OR: [{ status: null }, { status: status[3] }] },
         ],
@@ -4223,8 +4223,8 @@ export class BaileysStartupService extends ChannelStartupService {
       this.prismaRepository.message.count({
         where: {
           AND: [
-            { key: { path: ['remoteJid'], equals: remoteJid } },
-            { key: { path: ['fromMe'], equals: false } },
+            { key: { path: 'remoteJid', equals: remoteJid } },
+            { key: { path: 'fromMe', equals: false } },
             { status: { equals: status[3] } },
           ],
         },
@@ -4501,10 +4501,10 @@ export class BaileysStartupService extends ChannelStartupService {
         messageType: query?.where?.messageType,
         ...timestampFilter,
         AND: [
-          keyFilters?.id ? { key: { path: ['id'], equals: keyFilters?.id } } : {},
-          keyFilters?.fromMe ? { key: { path: ['fromMe'], equals: keyFilters?.fromMe } } : {},
-          keyFilters?.remoteJid ? { key: { path: ['remoteJid'], equals: keyFilters?.remoteJid } } : {},
-          keyFilters?.participants ? { key: { path: ['participants'], equals: keyFilters?.participants } } : {},
+          keyFilters?.id ? { key: { path: 'id', equals: keyFilters?.id } } : {},
+          keyFilters?.fromMe ? { key: { path: 'fromMe', equals: keyFilters?.fromMe } } : {},
+          keyFilters?.remoteJid ? { key: { path: 'remoteJid', equals: keyFilters?.remoteJid } } : {},
+          keyFilters?.participants ? { key: { path: 'participants', equals: keyFilters?.participants } } : {},
         ],
       },
     });
@@ -4525,10 +4525,10 @@ export class BaileysStartupService extends ChannelStartupService {
         messageType: query?.where?.messageType,
         ...timestampFilter,
         AND: [
-          keyFilters?.id ? { key: { path: ['id'], equals: keyFilters?.id } } : {},
-          keyFilters?.fromMe ? { key: { path: ['fromMe'], equals: keyFilters?.fromMe } } : {},
-          keyFilters?.remoteJid ? { key: { path: ['remoteJid'], equals: keyFilters?.remoteJid } } : {},
-          keyFilters?.participants ? { key: { path: ['participants'], equals: keyFilters?.participants } } : {},
+          keyFilters?.id ? { key: { path: 'id', equals: keyFilters?.id } } : {},
+          keyFilters?.fromMe ? { key: { path: 'fromMe', equals: keyFilters?.fromMe } } : {},
+          keyFilters?.remoteJid ? { key: { path: 'remoteJid', equals: keyFilters?.remoteJid } } : {},
+          keyFilters?.participants ? { key: { path: 'participants', equals: keyFilters?.participants } } : {},
         ],
       },
       orderBy: { messageTimestamp: 'desc' },
