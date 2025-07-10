@@ -648,7 +648,7 @@ model IsOnWhatsapp {
   jidOptions String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt 
-  lid        String?  @db.VarChar(100)
+  lid        String?  
 }
 
 model N8n {
